@@ -1,10 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import AppRouter from "./components/AppRouter";
+
+// MUI
+import '@fontsource/public-sans';
 
 function App() {
   return (
-    <div className="App">
-    </div>
+    <BrowserRouter>
+      <AppRouter/>
+    </BrowserRouter>
   );
 }
 
