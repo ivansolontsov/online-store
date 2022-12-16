@@ -27,11 +27,11 @@ const Shop = observer(() => {
   }, [])  
 
   useEffect(() => {
-    fetchProducts(products.selectedCategory.id, products.selectedBrand.id, products.currentPage, products.pageLimit).then(res => {
+    fetchProducts(products.categoryIds, products.brandIds, products.currentPage, products.pageLimit).then(res => {
       products.setProducts(res.rows)
       products.setTotalCount(res.count)
     })
-  }, [products.currentPage, products.selectedCategory, products.selectedBrand])
+  }, [products.currentPage, products.categoryIds, products.brandIds])
 
   return (
     <Container maxWidth={'xl'}>

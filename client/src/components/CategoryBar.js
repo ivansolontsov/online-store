@@ -1,15 +1,14 @@
 import React from 'react'
 import { useContext } from 'react';
 import { appContext } from '../index';
-
+import { observer } from 'mobx-react-lite';
 
 // MUI
 import Box from '@mui/material/Box';
-import { observer } from 'mobx-react-lite';
-import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
+import { Checkbox } from '@mui/material';
 
 
 
@@ -17,7 +16,12 @@ const CategoryBar = observer(() => {
     const { products } = useContext(appContext)
 
     const handleCategoryChange = (event, category) => {
-        products.setSelectedCategory(category)
+        if (event.target.checked) {
+            products.setSelectedCategory(category)
+        } else {
+            products.removeFromSelectedCategory(category)
+        }
+        console.log(products.categoryIds)
     }
 
     return (
@@ -32,9 +36,9 @@ const CategoryBar = observer(() => {
                     <FormControlLabel
                         key={category.id}
                         value={category.id}
-                        control={<Radio />}
+                        control={<Checkbox />}
                         label={category.name}
-                        onClick={(event) => handleCategoryChange(event, category)} />
+                        onChange={(event) => handleCategoryChange(event, category)} />
                 ))}
             </RadioGroup>
         </Box>

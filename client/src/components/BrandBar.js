@@ -3,10 +3,10 @@ import { useContext } from 'react';
 import { appContext } from '../index';
 
 // MUI
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
 import Box from '@mui/material/Box';
 import { observer } from 'mobx-react-lite';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { Checkbox } from '@mui/material';
 
 
 
@@ -15,25 +15,26 @@ const BrandBar = observer(() => {
 
     const { products } = useContext(appContext)
 
+    const handleBrandChange = (event, brand) => {
+        if (event.target.checked) {
+            products.setSelectedBrand(brand)
+        } else {
+            products.removeFromSelectedBrand(brand)
+        }
+        console.log(products.brandIds)
+    }
+
+
     return (
         <Box>
-            <ButtonGroup
-                orientation="horizontal"
-                aria-label="vertical outlined button group"
-                style={{ display: 'flex', width: '100%' }}
-            >
                 {products.brands.map((brand) => (
-                    <Button
+                    <FormControlLabel
                         key={brand.id}
-                        disabled={brand.id === products.selectedBrand.id ? true : false}
-                        onClick={() => {
-                            products.setSelectedBrand(brand)
-                        }}
-                    >
-                        {brand.name}
-                    </Button>
+                        value={brand.id}
+                        control={<Checkbox />}
+                        label={brand.name}
+                        onChange={(event) => handleBrandChange(event, brand)} />
                 ))}
-            </ButtonGroup>
         </Box>
     )
 })

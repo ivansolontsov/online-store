@@ -5,8 +5,8 @@ export default class ProductStore {
         this._categories = []
         this._brands = []
         this._products = []
-        this._selectedCategory = {}
-        this._selectedBrand = {}
+        this._selectedCategory = []
+        this._selectedBrand = []
         this._currentPage = 1
         this._totalCount = 0
         this._pageLimit = 4
@@ -27,11 +27,19 @@ export default class ProductStore {
     }
 
     setSelectedCategory(category) {
-        this._selectedCategory = category
+        this._selectedCategory.push(category)
+    }
+
+    removeFromSelectedCategory(category) {
+        this._selectedCategory = this._selectedCategory.filter(element => element.id !== category.id);
     }
 
     setSelectedBrand(brand) {
-        this._selectedBrand = brand
+        this._selectedBrand.push(brand)
+    }
+
+    removeFromSelectedBrand(brand) {
+        this._selectedBrand = this._selectedBrand.filter(element => element.id !== brand.id);
     }
 
     setCurrentPage(number) {
@@ -56,6 +64,24 @@ export default class ProductStore {
 
     get products() {
         return this._products
+    }
+
+    get categoryIds() {
+        let Ids = []
+        this._selectedCategory.map((category) => {
+            Ids.push(category.id);
+        })
+        Ids = Ids.join('')
+        return Ids
+    }
+
+    get brandIds() {
+        let Ids = []
+        this._selectedBrand.map((brand) => {
+            Ids.push(brand.id);
+        })
+        Ids = Ids.join('')
+        return Ids
     }
 
     get selectedCategory() {
