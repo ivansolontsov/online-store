@@ -9,12 +9,15 @@ class ProductsController {
             const { name, price, brandId, categoryId, info } = req.body
             const { image } = req.files
             let imgName = uuid.v4() + ".jpg"
-            image.mv(path.resolve(__dirname, '..', 'static', imgName))
             const product = await Products.create({ name, price, brandId, categoryId, image: imgName })
 
+            if(product) {
+                image.mv(path.resolve(__dirname, '..', 'static', imgName))
+            }
+ 
             if (info) {
-                info = JSON.parse(info)
-                info.forEach(element => {
+                let parsedInfo = JSON.parse(info)
+                parsedInfo.forEach(element => {
                     ProductInfo.create({
                         title: element.description,
                         description: element.description,
@@ -55,7 +58,7 @@ class ProductsController {
         const product = await Products.findOne(
             {
                 where: { id },
-                include: [{model: ProductInfo, as: 'info'}]
+                include: [{ model: ProductInfo, as: 'info' }]
             },
 
         )

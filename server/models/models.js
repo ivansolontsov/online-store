@@ -19,8 +19,8 @@ const CartProducts = sequelize.define('cart_item', {
 const Products = sequelize.define('products', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     name: { type: DataTypes.STRING, unique: true, allowNull: false },
-    price: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-    rating: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+    price: { type: DataTypes.INTEGER, allowNull: false },
+    rating: { type: DataTypes.INTEGER, defaultValue: 0 },
     image: { type: DataTypes.STRING, allowNull: true },
 })
 
@@ -72,7 +72,7 @@ Rating.belongsTo(Products)
 Products.hasMany(CartProducts)
 CartProducts.belongsTo(Products)
 
-Products.hasMany(ProductInfo, {as: 'info'})
+Products.hasMany(ProductInfo, { as: 'info' })
 ProductInfo.belongsTo(Products)
 
 Categories.belongsToMany(Brand, { through: CategoryBrand })  // вторым параметром передана связующая таблица
