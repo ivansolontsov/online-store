@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
                     component="img"
                     height="300"
                     image={process.env.REACT_APP_API_URL + product.image}
-                    alt="green iguana"
+                    alt={product.name}
                 />
                 <CardContent>
                     <Typography variant="overline" display="block" component="small" gutterBottom>

@@ -37,8 +37,6 @@ const CreateProduct = observer(({ open, onHide }) => {
   const [file, setFile] = React.useState(null)
   const [info, setInfo] = React.useState([])
 
-
-
   useEffect(() => {
     fetchCategory().then(res => products.setCategories(res))
     fetchBrands().then(res => products.setBrands(res))
@@ -61,11 +59,10 @@ const CreateProduct = observer(({ open, onHide }) => {
     setInfo(info.map(element => element.number === number ? { ...element, [key]: value } : element))
   }
 
-
-
   const [brand, setBrand] = React.useState('')
+  const [brandId, setBrandId] = React.useState(0)
   const [category, setCategory] = React.useState('')
-
+  const [categoryId, setCategoryId] = React.useState(0)
 
   const handleBrand = (event) => {
     setBrand(event.target.value)
@@ -77,16 +74,20 @@ const CreateProduct = observer(({ open, onHide }) => {
 
   const addProduct = () => {
     const formData = new FormData()
-    formData.append('name', productName)
-    formData.append('price', `${productPrice}`)
-    formData.append('image', file)
-    formData.append('brandId', products.selectedBrand.id)
-    formData.append('categoryId', products.selectedBrand.id)
-    formData.append('info', JSON.stringify(info))
+    if (productName && productPrice && file && categoryId && brandId) {
+      formData.append('name', productName)
+      formData.append('price', `${productPrice}`)
+      formData.append('image', file)
+      formData.append('brandId', brandId)
+      formData.append('categoryId', categoryId)
+      formData.append('info', JSON.stringify(info))
 
-    createProduct(formData)
-      .then(res => onHide())
-      .catch(error => console.log(error))
+      createProduct(formData)
+        .then(res => onHide())
+        .catch(error => console.log(error))
+    } else {
+      alert('Enter all fields')
+    }
   }
 
   return (
@@ -115,7 +116,8 @@ const CreateProduct = observer(({ open, onHide }) => {
                   <MenuItem
                     value={category.id}
                     key={category.id}
-                    onClick={() => products.setSelectedCategory(category)}>
+                    onClick={() => setCategoryId(category.id)}
+                  >
                     {category.name}
                   </MenuItem>
                 ))}
@@ -134,7 +136,8 @@ const CreateProduct = observer(({ open, onHide }) => {
                   <MenuItem
                     value={brand.id}
                     key={brand.id}
-                    onClick={() => products.setSelectedBrand(brand)}>
+                    onClick={() => setBrandId(brand.id)}
+                  >
                     {brand.name}
                   </MenuItem>
                 ))}

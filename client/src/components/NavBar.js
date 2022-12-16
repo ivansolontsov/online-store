@@ -21,8 +21,7 @@ const NavBar = observer(() => {
         user.setIsAuth(false)
         navigate(SIGNIN_ROUTE)
     }
-
-
+    
     return (
         <>
             {user.isAuth === true

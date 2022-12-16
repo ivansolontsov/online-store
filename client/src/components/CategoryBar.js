@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { appContext } from '../index';
 import { observer } from 'mobx-react-lite';
 
+
 // MUI
 import Box from '@mui/material/Box';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -26,7 +27,6 @@ const CategoryBar = observer(() => {
 
     return (
         <Box>
-
             <FormLabel>Categories</FormLabel>
             <RadioGroup
                 defaultValue="female"

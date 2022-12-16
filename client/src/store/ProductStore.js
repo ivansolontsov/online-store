@@ -9,9 +9,14 @@ export default class ProductStore {
         this._selectedBrand = []
         this._currentPage = 1
         this._totalCount = 0
-        this._pageLimit = 4
+        this._pageLimit = 8
 
         makeAutoObservable(this)
+    }
+
+    filterReset() {
+        this._selectedCategory = []
+        this._selectedBrand = []
     }
 
     setCategories(categories) {
@@ -27,19 +32,23 @@ export default class ProductStore {
     }
 
     setSelectedCategory(category) {
+        this.setCurrentPage(1)
         this._selectedCategory.push(category)
     }
 
     removeFromSelectedCategory(category) {
         this._selectedCategory = this._selectedCategory.filter(element => element.id !== category.id);
+        this.setCurrentPage(1)
     }
 
     setSelectedBrand(brand) {
+        this.setCurrentPage(1)
         this._selectedBrand.push(brand)
     }
 
     removeFromSelectedBrand(brand) {
         this._selectedBrand = this._selectedBrand.filter(element => element.id !== brand.id);
+        this.setCurrentPage(1)
     }
 
     setCurrentPage(number) {
@@ -70,6 +79,7 @@ export default class ProductStore {
         let Ids = []
         this._selectedCategory.map((category) => {
             Ids.push(category.id);
+            return null
         })
         Ids = Ids.join('')
         return Ids
@@ -79,6 +89,7 @@ export default class ProductStore {
         let Ids = []
         this._selectedBrand.map((brand) => {
             Ids.push(brand.id);
+            return null
         })
         Ids = Ids.join('')
         return Ids

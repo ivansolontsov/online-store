@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { fetchOneProduct } from '../http/productAPI'
+import { fetchOneProduct, fetchBrands } from '../http/productAPI'
 import { useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { appContext } from '../index';
@@ -20,8 +20,9 @@ import ListItemText from '@mui/material/ListItemText';
 
 const Product = observer(() => {
 
-  const {cart} = useContext(appContext)
-
+  const { cart } = useContext(appContext)
+  const { products } = useContext(appContext)
+  
   const [product, setProduct] = useState({ info: [] });
   const [loading, setLoading] = React.useState(true)
   const { id } = useParams()
@@ -32,6 +33,7 @@ const Product = observer(() => {
         setProduct(res)
         setLoading(false)
       });
+    fetchBrands().then(res => products.setBrands(res))
   }, [])
 
   if (loading) {
@@ -48,6 +50,17 @@ const Product = observer(() => {
     cart.setCartItems([product.id, product.name, product.price]);
   }
 
+  const getBrand = () => {
+    let brand = products.brands.filter(brand => brand.id === product.brandId)
+    brand = brand.map((brand) => brand.name).join(', ')
+    return brand
+  }
+
+  const getPrice = () => {
+    let price = product.price.toLocaleString("en-US")
+    price = price + ' ₽'
+    return price
+  }
 
   return (
     <Container maxWidth={'xl'}>
@@ -62,7 +75,7 @@ const Product = observer(() => {
         </Grid>
         <Grid xs={4}>
           <Typography variant="overline" component="h2" gutterBottom>
-            APPLE
+            {getBrand()}
           </Typography>
           <Typography variant="h4" component="h1" gutterBottom>
             {product.name}
@@ -75,7 +88,7 @@ const Product = observer(() => {
         <Grid xs={4}>
           <Stack direction={"column"} gap={1}>
             <Typography variant="h5" component="h3" gutterBottom>
-              {product.price} RUB
+              {getPrice()}
             </Typography>
             <Button
               onClick={() => handleAddToCartClick()}

@@ -21,20 +21,18 @@ const BrandBar = observer(() => {
         } else {
             products.removeFromSelectedBrand(brand)
         }
-        console.log(products.brandIds)
     }
-
 
     return (
         <Box>
-                {products.brands.map((brand) => (
-                    <FormControlLabel
-                        key={brand.id}
-                        value={brand.id}
-                        control={<Checkbox />}
-                        label={brand.name}
-                        onChange={(event) => handleBrandChange(event, brand)} />
-                ))}
+            {products.brands.map((brand) => (
+                <FormControlLabel
+                    key={brand.id}
+                    value={brand.id}
+                    control={<Checkbox />}
+                    label={brand.name}
+                    onChange={(event) => handleBrandChange(event, brand)} />
+            ))}
         </Box>
     )
 })

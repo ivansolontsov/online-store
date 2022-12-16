@@ -21,7 +21,7 @@ class ProductsController {
                 let parsedInfo = JSON.parse(info)
                 parsedInfo.forEach(element => {
                     ProductInfo.create({
-                        title: element.description,
+                        title: element.title,
                         description: element.description,
                         productId: product.id
                     })
@@ -88,12 +88,6 @@ class ProductsController {
 
         )
         return res.json(product)
-    }
-
-    stringToArray = (str) => {
-        arrayOfIds = str.split('');
-        arrayOfIds = arrayOfIds.map(Number)
-        return arrayOfIds;
     }
 }
 
